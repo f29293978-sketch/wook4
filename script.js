@@ -1,59 +1,84 @@
-const container = document.getElementById('puzzle-container');
-const message = document.getElementById('message');
-const winScreen = document.getElementById('win-screen');
-let pieces = [];
-let level = 1;
-const maxLevel = 8;
-let baseColor, diffColor, diffIndex;
-let colors = [];
-
-function init() {
-  for (let i = 0; i < 64; i++) {
-    const piece = document.createElement('div');
-    piece.className = 'puzzle-piece';
-    piece.addEventListener('click', () => checkClick(i));
-    pieces.push(piece);
-    container.appendChild(piece);
-  }
-  createLevel();
+// 创建粒子效果
+function createParticles() {
+  const container = document.getElementById('particles');
+  setInterval(() => {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * window.innerWidth + 'px';
+    particle.style.top = window.innerHeight + 'px';
+    particle.style.opacity = Math.random();
+    container.appendChild(particle);
+    
+    setTimeout(() => particle.remove(), 20000);
+  }, 100);
 }
 
-function createLevel() {
-  // 生成基礎顏色
-  const hue = Math.random() * 360;
-  const saturation = 70;
-  const lightness = 50;
-  baseColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-
-  // 不同顏色：根據關卡調整差異
-  const diffAmount = 30 / level; // 關卡越高，差異越小
-  const diffHue = hue + (Math.random() > 0.5 ? diffAmount : -diffAmount);
-  diffColor = `hsl(${diffHue}, ${saturation}%, ${lightness}%)`;
-
-  // 隨機不同色塊位置
-  diffIndex = Math.floor(Math.random() * 64);
-
-  for (let i = 0; i < 64; i++) {
-    pieces[i].style.backgroundColor = i === diffIndex ? diffColor : baseColor;
-  }
-
-  message.style.display = 'block';
-  message.textContent = `第 ${level} 題`;
+// 交互卡片效果
+function initCards() {
+  const cards = document.querySelectorAll('.interactive-card');
+  
+  cards.forEach((card, index) => {
+    card.addEventListener('click', () => {
+      triggerEffect(card, index);
+    });
+    
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', x + 'px');
+      card.style.setProperty('--mouse-y', y + 'px');
+    });
+  });
 }
 
-function checkClick(clicked) {
-  if (clicked === diffIndex) {
-    colors.push(diffColor);
-    document.body.style.background = `linear-gradient(to right, ${colors.join(', ')})`;
-    level++;
-    if (level > maxLevel) {
-      winScreen.style.display = 'flex';
-    } else {
-      createLevel();
-    }
-  } else {
-    alert('錯了，再試一次！');
+// 触发效果
+function triggerEffect(card, index) {
+  card.style.animation = 'glitch 0.3s';
+  
+  const colors = ['#0ff', '#ff00ff', '#ffff00', '#ff0080'];
+  card.style.borderColor = colors[index % colors.length];
+  card.style.boxShadow = `0 0 40px ${colors[index % colors.length]}`;
+  
+  // 随机数字雨效果
+  const glitchText = document.getElementById('glitch-text');
+  glitchText.innerHTML = '';
+  for (let i = 0; i < 20; i++) {
+    const text = document.createElement('div');
+    text.textContent = Math.random().toString(2).substring(2);
+    text.style.position = 'absolute';
+    text.style.left = Math.random() * 100 + '%';
+    text.style.top = Math.random() * 100 + '%';
+    text.style.color = colors[index % colors.length];
+    text.style.fontSize = Math.random() * 20 + 10 + 'px';
+    text.style.opacity = '0.5';
+    text.style.fontFamily = 'monospace';
+    text.style.animation = 'float 2s ease-in-out';
+    glitchText.appendChild(text);
   }
+  
+  setTimeout(() => {
+    card.style.animation = '';
+    card.style.borderColor = '';
+    card.style.boxShadow = '';
+    glitchText.innerHTML = '';
+  }, 1000);
 }
 
-init();
+// 创建数字背景
+function createGlitchText() {
+  const texts = ['01', '10', '11', '00', 'CYBER', 'PUNK', 'HACK', 'GLITCH'];
+  let index = 0;
+  
+  setInterval(() => {
+    const randomText = texts[Math.floor(Math.random() * texts.length)];
+    console.log(randomText);
+  }, 2000);
+}
+
+// 初始化
+window.addEventListener('load', () => {
+  createParticles();
+  initCards();
+  createGlitchText();
+});

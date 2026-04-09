@@ -2,16 +2,45 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>色盲測試遊戲</title>
+  <title>CYBERPUNK 2026</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="puzzle-container"></div>
-  <div id="message" style="display: none;">第 1 題</div>
-  <div id="win-screen" style="display: none;">
-    <h1>恭喜通關！</h1>
-    <p>你沒有色弱！</p>
+  <div id="grid-background"></div>
+  <div id="glitch-text"></div>
+  <div class="container">
+    <header>
+      <h1 class="neon-title">CYBER<span class="accent">PUNK</span></h1>
+      <p class="subtitle">Welcome to the future...</p>
+    </header>
+    <main>
+      <div class="card interactive-card" id="card1">
+        <div class="card-content">
+          <h2>HACK THE MATRIX</h2>
+          <p>Click me to corrupt the system</p>
+        </div>
+      </div>
+      <div class="card interactive-card" id="card2">
+        <div class="card-content">
+          <h2>NEON PULSE</h2>
+          <p>Feel the electric rhythm</p>
+        </div>
+      </div>
+      <div class="card interactive-card" id="card3">
+        <div class="card-content">
+          <h2>GLITCH REALITY</h2>
+          <p>Distort the digital world</p>
+        </div>
+      </div>
+      <div class="card interactive-card" id="card4">
+        <div class="card-content">
+          <h2>DATA STREAM</h2>
+          <p>Ride the information superhighway</p>
+        </div>
+      </div>
+    </main>
   </div>
+  <div id="particles"></div>
   <script src="script.js"></script>
 </body>
 </html>
