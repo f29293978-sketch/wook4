@@ -173,3 +173,94 @@ main {
   80% { transform: translate(2px, -2px); }
   100% { transform: translate(0); }
 }
+
+@media (max-width: 1024px) {
+  .neon-title {
+    font-size: 3em;
+  }
+  
+  main {
+    gap: 25px;
+    max-width: 700px;
+  }
+  
+  .card {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  header {
+    margin-bottom: 40px;
+  }
+  
+  .neon-title {
+    font-size: 2.5em;
+    letter-spacing: 2px;
+  }
+  
+  .subtitle {
+    font-size: 1em;
+  }
+  
+  main {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 100%;
+  }
+  
+  .card {
+    padding: 20px;
+  }
+  
+  .card h2 {
+    font-size: 1.3em;
+  }
+  
+  .card p {
+    font-size: 0.85em;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  header {
+    margin-bottom: 25px;
+  }
+  
+  .neon-title {
+    font-size: 1.8em;
+    letter-spacing: 1px;
+  }
+  
+  .subtitle {
+    font-size: 0.75em;
+  }
+  
+  main {
+    gap: 15px;
+  }
+  
+  .card {
+    padding: 15px;
+    border-radius: 3px;
+  }
+  
+  .card h2 {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+  }
+  
+  .card p {
+    font-size: 0.75em;
+  }
+}
