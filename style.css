@@ -2,25 +2,34 @@ body {
   background: linear-gradient(to bottom, #000000, #333333);
   font-family: Arial, sans-serif;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
 }
 
-p {
+#puzzle-container {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 5px;
+  position: relative;
+}
+
+.puzzle-piece {
+  width: 100px;
+  height: 100px;
+  background-image: url('pig.jpg');
+  background-size: 300px 300px;
+  cursor: pointer;
+  border: 1px solid #fff;
+}
+
+#message {
   font-size: 2em;
   color: white;
   text-align: center;
-  text-shadow: 0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(255,255,255,0.3);
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from {
-    text-shadow: 0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(255,255,255,0.3);
-  }
-  to {
-    text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px rgba(255,255,255,0.5);
-  }
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+  margin-top: 20px;
 }
