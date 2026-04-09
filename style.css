@@ -1,0 +1,16 @@
+body {
+  background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+p {
+  font-size: 2em;
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
