@@ -1,68 +1,59 @@
 const container = document.getElementById('puzzle-container');
 const message = document.getElementById('message');
+const winScreen = document.getElementById('win-screen');
 let pieces = [];
-let emptyIndex = 8;
+let level = 1;
+const maxLevel = 8;
+let baseColor, diffColor, diffIndex;
+let colors = [];
 
-function createPuzzle() {
-  for (let i = 0; i < 9; i++) {
+function init() {
+  for (let i = 0; i < 64; i++) {
     const piece = document.createElement('div');
     piece.className = 'puzzle-piece';
-    if (i < 8) {
-      piece.style.backgroundPosition = `-${(i % 3) * 100}px -${Math.floor(i / 3) * 100}px`;
-    } else {
-      piece.style.backgroundImage = 'none';
-    }
-    piece.addEventListener('click', () => movePiece(i));
+    piece.addEventListener('click', () => checkClick(i));
     pieces.push(piece);
     container.appendChild(piece);
   }
-  shuffle();
+  createLevel();
 }
 
-function shuffle() {
-  for (let i = 0; i < 100; i++) {
-    const neighbors = getNeighbors(emptyIndex);
-    if (neighbors.length > 0) {
-      const randomNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
-      swap(emptyIndex, randomNeighbor);
-    }
+function createLevel() {
+  // 生成基礎顏色
+  const hue = Math.random() * 360;
+  const saturation = 70;
+  const lightness = 50;
+  baseColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
+  // 不同顏色：根據關卡調整差異
+  const diffAmount = 30 / level; // 關卡越高，差異越小
+  const diffHue = hue + (Math.random() > 0.5 ? diffAmount : -diffAmount);
+  diffColor = `hsl(${diffHue}, ${saturation}%, ${lightness}%)`;
+
+  // 隨機不同色塊位置
+  diffIndex = Math.floor(Math.random() * 64);
+
+  for (let i = 0; i < 64; i++) {
+    pieces[i].style.backgroundColor = i === diffIndex ? diffColor : baseColor;
   }
-}
 
-function getNeighbors(index) {
-  const row = Math.floor(index / 3);
-  const col = index % 3;
-  const neighbors = [];
-  if (row > 0) neighbors.push(index - 3);
-  if (row < 2) neighbors.push(index + 3);
-  if (col > 0) neighbors.push(index - 1);
-  if (col < 2) neighbors.push(index + 1);
-  return neighbors;
-}
-
-function movePiece(index) {
-  if (getNeighbors(emptyIndex).includes(index)) {
-    swap(emptyIndex, index);
-    emptyIndex = index;
-    checkWin();
-  }
-}
-
-function swap(i, j) {
-  const tempPos = pieces[i].style.backgroundPosition;
-  const tempImg = pieces[i].style.backgroundImage;
-  pieces[i].style.backgroundPosition = pieces[j].style.backgroundPosition;
-  pieces[i].style.backgroundImage = pieces[j].style.backgroundImage;
-  pieces[j].style.backgroundPosition = tempPos;
-  pieces[j].style.backgroundImage = tempImg;
-}
-
-function checkWin() {
-  for (let i = 0; i < 8; i++) {
-    const expected = `-${(i % 3) * 100}px -${Math.floor(i / 3) * 100}px`;
-    if (pieces[i].style.backgroundPosition !== expected) return;
-  }
   message.style.display = 'block';
+  message.textContent = `第 ${level} 題`;
 }
 
-createPuzzle();
+function checkClick(clicked) {
+  if (clicked === diffIndex) {
+    colors.push(diffColor);
+    document.body.style.background = `linear-gradient(to right, ${colors.join(', ')})`;
+    level++;
+    if (level > maxLevel) {
+      winScreen.style.display = 'flex';
+    } else {
+      createLevel();
+    }
+  } else {
+    alert('錯了，再試一次！');
+  }
+}
+
+init();
